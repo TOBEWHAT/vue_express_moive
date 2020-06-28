@@ -14,6 +14,10 @@ module.exports = {
       host: 'localhost',
       dialect: 'sqlite',
       storage: path.resolve(__dirname, '../db/movie.sqlite'), // sqlite需要指定目錄
+      define: {
+        underscored: true,
+        paranoid: true,
+      },
     },
   },
 }

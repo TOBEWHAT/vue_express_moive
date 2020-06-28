@@ -23,9 +23,10 @@ app.post('/users', (req, res) => {
   })
 })
 
-// 数据库配置执行
+// 数据库配置执行 authenticate
+// .sync({ force: true }) force: true 为强制创建表
 sequelize
-  .authenticate()
+  .sync()
   .then(() => {
     console.log('Connection has been established successfully.')
     app.listen(3000, () => console.log('Server has been started on port 3000'))
