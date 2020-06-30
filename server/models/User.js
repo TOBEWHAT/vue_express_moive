@@ -1,4 +1,3 @@
-/* eslint-disable comma-dangle */
 const Sequelize = require('sequelize')
 
 module.exports = (sequelize, DataTypes) => {
@@ -10,19 +9,19 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         unique: true,
         validate: {
-          isEmail: true,
-        },
+          isEmail: true
+        }
       },
       password: {
         type: DataTypes.STRING,
         validate: {
-          len: [8, 40],
-        },
-      },
+          len: [8, 40]
+        }
+      }
     },
     {
       sequelize,
-      modelName: 'User',
+      modelName: 'User'
     }
   )
   return Model

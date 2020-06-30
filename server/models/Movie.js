@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
 
   Model.init(
     {
-      email: {
-        name: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING,
       },
       poster: {
         type: DataTypes.STRING,

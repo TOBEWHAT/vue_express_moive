@@ -7,12 +7,7 @@ const app = express()
 app.use(bodyParser.json())
 app.use(morgan('combined'))
 
-app.get('/api', (req, res) => {
-  res.send({
-    // eslint-disable-next-line comma-dangle
-    msg: 'Hello node',
-  })
-})
+require('./router')(app)
 
 app.post('/users', (req, res) => {
   console.log(req.body)
