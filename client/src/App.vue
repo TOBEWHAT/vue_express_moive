@@ -7,26 +7,33 @@
         <code v-text="'<el-button>'"></code>
         below
       </p>
-      <el-button>el-button</el-button>
+      {{envs}}
+      <el-button @click="test">el-button</el-button>
     </div>
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import UserService from './services/UserService'
 export default {
   name: 'app',
-  components: {
-    HelloWorld
+  data () {
+    return {
+      envs: process.env.VUE_APP_MOCK_SERVER
+    }
+  },
+  methods: {
+    async test () {
+      const user = await UserService.getUserById()
+      console.log(user)
+    }
   }
 }
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
