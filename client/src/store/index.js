@@ -7,7 +7,8 @@ const store = new Vuex.Store({
   state: {
     token: '',
     user: null,
-    isUserLogin: false
+    isUserLogin: false,
+    loadingInstance: null
   },
   mutations: {
     setToken(state, token) {
@@ -18,6 +19,9 @@ const store = new Vuex.Store({
     },
     setUser(state, user) {
       state.user = user
+    },
+    setloadingInstance(state, loadingInstance) {
+      state.loadingInstance = loadingInstance
     }
   },
   actions: {
@@ -26,6 +30,9 @@ const store = new Vuex.Store({
     },
     setUser({ commit }, user) {
       commit('setUser', user)
+    },
+    setloadingInstance({ commit }, loadingInstance) {
+      commit('setloadingInstance', loadingInstance)
     }
   }
 })

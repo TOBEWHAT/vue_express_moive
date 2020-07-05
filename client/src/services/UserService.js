@@ -9,6 +9,10 @@ export default {
     return request.post('/users', data)
   },
   login(data) {
-    return request.post('/users/login', data)
+    return request.post('/users/login', data, {
+      headers: {
+        showLoading: true
+      }
+    })
   }
 }

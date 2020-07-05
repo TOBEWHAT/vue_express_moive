@@ -39,9 +39,8 @@ export default {
       loading: false,
       error: '',
       loginForm: {
-        email: '',
-        password: '',
-        comparePassword: ''
+        email: 'mr.lihaiting@outlook.com',
+        password: '12345678'
       },
       loginRules: {
         email: {
