@@ -30,6 +30,22 @@ const routes = [
     alias: '/register',
     name: 'register',
     component: () => import('../views/user/Register.vue')
+  },
+  {
+    path: '/movies',
+    component: () => import('../views/layout/Movie.vue'),
+    children: [
+      {
+        path: 'create',
+        name: 'movie-create',
+        component: () => import('../views/movie/Create.vue')
+      },
+      {
+        path: 'list',
+        name: 'movie-list',
+        component: () => import('../views/movie/List.vue')
+      }
+    ]
   }
 ]
 
