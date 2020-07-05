@@ -19,6 +19,7 @@ module.exports = {
     try {
       const token = bearerToken.split(' ')[1]
       if (tokenVerify(token)) {
+        console.log(token)
         next()
       } else {
         res.status(403).send({

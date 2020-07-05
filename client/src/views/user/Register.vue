@@ -92,11 +92,18 @@ export default {
               this.error = response.data.error
             } else {
               // TODO: 将用户信息和token保存到vuex
+              this.$store.dispatch('setToken', response.data.token)
+              this.$store.dispatch('setUser', response.data.user)
               this.$router.push('/')
             }
             this.loading = false
           } catch (error) {
-            console.log(error)
+            if (error.response.data) {
+              this.error = error.response.data.error
+            } else {
+              this.error = '注册失败，请稍后重试'
+            }
+            this.loading = false
           }
         }
       })

@@ -21,11 +21,13 @@ const routes = [
   },
   {
     path: '/user/login',
+    alias: '/login',
     name: 'login',
     component: () => import('../views/user/Login.vue')
   },
   {
     path: '/user/register',
+    alias: '/register',
     name: 'register',
     component: () => import('../views/user/Register.vue')
   }
