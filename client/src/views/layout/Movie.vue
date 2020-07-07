@@ -18,9 +18,7 @@
         </div>
       </div>
     </el-header>
-    <el-main>
-      <router-view></router-view>
-    </el-main>
+    <router-view class="container"></router-view>
   </el-container>
 </template>
 
