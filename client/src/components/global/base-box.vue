@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     className () {
-      return ['box','box-' + this.type]
+      return ['box', 'box-' + this.type]
     }
   }
 }

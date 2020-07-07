@@ -41,11 +41,20 @@ const routes = [
         component: () => import('../views/movie/Create.vue')
       },
       {
+        path: 'detail/:id',
+        name: 'movie-detail',
+        component: () => import('../views/movie/Detail.vue')
+      },
+      {
         path: 'list',
         name: 'movie-list',
         component: () => import('../views/movie/List.vue')
       }
     ]
+  },
+  {
+    path: '*',
+    redirect: { name: 'movie-list' }
   }
 ]
 
