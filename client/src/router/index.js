@@ -1,7 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store'
+import { Notification } from 'element-ui'
 
 Vue.use(VueRouter)
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 const routes = [
   {
@@ -38,7 +45,9 @@ const routes = [
       {
         path: 'create',
         name: 'movie-create',
-        component: () => import('../views/movie/Create.vue')
+        alias: 'edit',
+        component: () => import('../views/movie/Create.vue'),
+        meta: { auth: true }
       },
       {
         path: 'detail/:id',
@@ -60,6 +69,26 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(router => router.meta.auth)) {
+    if (store.state.isUserLogin) {
+      next()
+    } else {
+      // TODO: 提示用户访问的页面需要登录
+      Notification({
+        title: '提示',
+        type: 'warning',
+        message: '请登录后再访问该页面'
+      })
+      next({
+        name: 'login',
+        query: { redirect: to.fullPath } // 跳回之前访问的页面
+      })
+    }
+  }
+  next()
 })
 
 export default router

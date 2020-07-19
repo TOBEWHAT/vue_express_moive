@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view v-if="isRouterAlive"></router-view>
   </div>
 </template>
 
@@ -8,13 +8,25 @@
 import UserService from './services/UserService'
 export default {
   name: 'app',
-  data() {
+  data () {
     return {
+      isRouterAlive: true,
       envs: process.env.VUE_APP_MOCK_SERVER
     }
   },
+  provide () {
+    return {
+      reload: this.reload
+    }
+  },
   methods: {
-    async test() {
+    reload () {
+      this.isRouterAlive = false
+      this.$nextTick(function () {
+        this.isRouterAlive = true
+      })
+    },
+    async test () {
       const user = await UserService.getUserById()
       console.log(user)
     }

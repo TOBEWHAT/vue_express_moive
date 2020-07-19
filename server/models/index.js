@@ -26,5 +26,6 @@ fs.readdirSync(__dirname)
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 // db.User = User
+// db['Movie'].sync({ force: true }) //更改了表结构就需要重新生成
 
 module.exports = db

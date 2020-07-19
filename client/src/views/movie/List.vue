@@ -1,28 +1,27 @@
 <template>
-  <base-box type="primary" title="电影">
+  <base-box type="primary"
+            title="电影">
     <template v-slot:title-addon>
       <div class="filter">
-        <label class="active">最新</label>
-        <label>高分</label>
-        <label>动作</label>
-        <label>剧情</label>
+        <label @click="orderBy('rating', $event)">最新</label>
+        <label @click="orderBy('rating', $event)">高分</label>
+        <label @click="filterByGenre('动作')">动作</label>
+        <label @click="filterByGenre('剧情')">剧情</label>
       </div>
-      <div
-        class="text-success"
-        style="margin-left: auto; cursor: pointer"
-        @click="$router.push({name: 'movie-create'})"
-      >
+      <div class="text-success"
+           style="margin-left: auto; cursor: pointer"
+           @click="$router.push({name: 'movie-create'})"
+           v-if="$store.state.isUserLogin">
         <i class="el-icon-plus"></i> 新增电影
       </div>
     </template>
     <div class="movie-list">
-      <a
-        class="movie-item"
-        @click="$router.push({name: 'movie-detail', params: {id: movie.id}})"
-        v-for="movie in movies"
-        :key="movie.id"
-      >
-        <img :src="movie.poster" :alt="movie.name" />
+      <a class="movie-item"
+         @click="$router.push({name: 'movie-detail', params: {id: movie.id}})"
+         v-for="movie in movies"
+         :key="movie.id">
+        <img :src="movie.poster"
+             :alt="movie.name" />
         <p>
           {{ movie. name }}
           <strong>{{ movie.rating }}</strong>
@@ -33,30 +32,41 @@
 </template>
 
 <script>
+import MovieService from 'services/MovieService'
 export default {
-  data() {
+  data () {
     return {
       movies: []
     }
   },
-  created() {
+  async created () {
     // TODO: 调用接口服务获取数据列表
-    this.movies = [
-      {
-        id: 1,
-        name: '哪吒之魔童降世',
-        poster:
-          'http://imge.gmw.cn/attachement/jpg/site2/20190725/005056a5c18d1ea3629b18.jpg',
-        rating: 8.6
-      },
-      {
-        id: 2,
-        name: '绿皮书',
-        poster:
-          'http://n.sinaimg.cn/translate/749/w450h299/20190222/w9VE-htknpmh2184101.jpg',
-        rating: 8.6
+    try {
+      const response = await MovieService.getAll()
+      this.movies = response.data.movies
+    } catch (error) {
+      this.$message.error(`[${error.response.status}],数据查询异常请稍后再试`)
+    }
+  },
+  methods: {
+    async orderBy (field, event) {
+      let query = `orderby=${field}`
+      try {
+        const response = await MovieService.getAll(query)
+        this.movies = response.data.movies
+      } catch (error) {
+        this.$message.error(`[${error.response.status}]，数据查询异常请稍后再试`)
       }
-    ]
+    },
+    async filterByGenre (genre, event) {
+      let query = `genre=${genre}`
+      try {
+        const response = await MovieService.getAll(query)
+        this.movies = response.data.movies
+      } catch (error) {
+        this.$message.error(`[${error.response.status}]，数据查询异常请稍后再试`)
+      }
+    }
   }
 }
 </script>

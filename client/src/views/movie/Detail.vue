@@ -1,11 +1,11 @@
 <template>
-  <base-box title="电影列表" type="primary">
+  <base-box title="电影列表"
+            type="primary">
     <template v-slot:title-addon>
-      <div
-        class="text-primary"
-        style="margin-left: auto; cursor: pointer"
-        @click="$router.push({ name: 'movie-create' })"
-      >
+      <div class="text-primary"
+           style="margin-left: auto; cursor: pointer"
+           v-if="$store.state.isUserLogin"
+           @click="$router.push({ path: '/movies/edit', query: {id: $route.params.id} })">
         <i class="el-icon-edit"></i> 编辑电影
       </div>
     </template>
@@ -14,7 +14,9 @@
         {{ movie.name }}
         <span class="text-info">{{ movie.year }}</span>
       </h2>
-      <img :src="movie.poster" :alt="movie.name" class="movie-poster" />
+      <img :src="movie.poster"
+           :alt="movie.name"
+           class="movie-poster" />
       <ul class="movie-meta">
         <li>
           <label class="text-info">导演：</label>
@@ -27,11 +29,9 @@
         </li>
         <li>
           <label class="text-info">评分：</label>
-          <el-rate
-            :value="movie.rating / 2"
-            disabled
-            style="display: inline-block"
-          ></el-rate>
+          <el-rate :value="movie.rating / 2"
+                   disabled
+                   style="display: inline-block"></el-rate>
           <span style="color: #ff9900">{{ movie.rating }}</span>
         </li>
         <li><label class="text-info">片长：</label> 110分钟</li>
@@ -43,34 +43,29 @@
       <div class="movie-description">
         <h3 class="text-success">{{ movie.name }}的剧情简介</h3>
         <p class="movie-description">
-          {{ movie.description }}...
-          <span class="text-success">查看详情</span>
+          {{ movie.description }}
         </p>
       </div>
     </div>
   </base-box>
 </template>
 <script>
+import MovieService from 'services/MovieService'
 export default {
-  data() {
+  name: 'MovieDetail',
+  data () {
     return {
-      movie: null
+      movie: {}
     }
   },
-  created() {
+  async created () {
     // TODO: 调用接口服务获取数据信息
-    this.movie = {
-      id: 1,
-      director: '饺子',
-      imdb_id: 'tt10627720',
-      name: '哪吒之魔童降世',
-      year: '2019',
-      genre: '剧情 / 喜剧 / 动画 / 奇幻',
-      rating: 8.6,
-      poster:
-        'http://imge.gmw.cn/attachement/jpg/site2/20190725/005056a5c18d1ea3629b18.jpg',
-      description:
-        '天地灵气孕育出一颗能量巨大的混元珠，元始天尊将混元珠提炼成灵珠和魔丸，灵珠投胎为人，助周伐纣时可堪大用；而魔丸则会诞出魔王，为祸人间。元始天尊启动了天劫咒语，3年后天雷将会降临，摧毁魔丸。太乙受命将灵珠托生于陈塘关李靖家的儿子哪吒身上。然而阴差阳错，灵珠和魔丸竟然被掉包。本应是灵珠英雄的哪吒却成了混世大魔王。调皮捣蛋顽劣不堪的哪吒却徒有一颗做英雄的心。然而面对众人对魔丸的误解和即将来临的天雷的降临，哪吒是否命中注定会立地成魔？他将何去何从？'
+    let id = this.$route.params.id
+    try {
+      const response = await MovieService.getById(id)
+      this.movie = response.data.movie
+    } catch (error) {
+      this.$message.error(`[${error.response.status}],数据查询异常请稍后再试`)
     }
   }
 }
